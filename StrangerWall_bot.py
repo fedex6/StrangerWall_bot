@@ -22,11 +22,11 @@ chat_owner  =   '-- # of chat owner --'
 name_owner  =   '-- name without @ of owner --'
 
 def handle(msg):
-    chat_id = msg['chat']['id']             ## Numero de Chat de quien recibe el mensaje
-    usuario = msg['from']['username']       ## Usuario que lo envia
-    mensaje = msg['text']                   ## Mensaje recibido
-    frase = mensaje.upper()                 ## Pasa todo a MAYUSCULA
-    letra = list(frase)                     ## Crea un array con las letras del mensaje
+    chat_id = msg['chat']['id']                 ## Numero de Chat de quien recibe el mensaje
+    usuario = msg['from']['username']           ## Usuario que lo envia
+    mensaje = msg['text']                       ## Mensaje recibido
+    frase = mensaje.upper()                     ## Pasa todo a MAYUSCULA
+    letra = list(frase)                         ## Crea un array con las letras del mensaje
 
     for l in range(0, len(frase)):
         x = letra[l]
@@ -61,25 +61,25 @@ def handle(msg):
                 'Z': 26
             }
 
-            result = letras.get(x, ' ')     ## Toma el valor de la letra
+            result = letras.get(x, ' ')         ## Toma el valor de la letra
 
             ''' DESCOMENTAR LUEGO DE QUE ESTE MONTADO
-            GPIO.setup(result, GPIO.OUT)    ## Usa el valor del GPIO que debe encender, definirlos arriba
-            GPIO.output(result, True)       ## Enciende el Led
-            time.sleep(1.5)                 ## 1.5s deja encendido el Led
-            GPIO.output(result, False)      ## Apaga el Led
-            time.sleep(0.3)                 ## Espera por la proxima letra
-            GPIO.cleanup()                  ## Limpieza
+            GPIO.setup(result, GPIO.OUT)        ## Usa el valor del GPIO que debe encender, definirlos arriba
+            GPIO.output(result, True)           ## Enciende el Led
+            time.sleep(1.5)                     ## 1.5s deja encendido el Led
+            GPIO.output(result, False)          ## Apaga el Led
+            time.sleep(0.3)                     ## Espera por la proxima letra
+            GPIO.cleanup()                      ## Limpieza
             '''
 
-            bot.sendMessage(chat_id, result)## Envia el Led que se encendio
+            bot.sendMessage(chat_id, result)    ## Envia el Led que se encendio
             time.sleep(1.8)
         else :
-            time.sleep(2.5)                   ## Los espacios hace que espere 3 seg
-            bot.sendMessage(chat_id, '...')   ## Envia un mensaje vacio
+            time.sleep(2.5)                     ## Los espacios hace que espere 3 seg
+            bot.sendMessage(chat_id, '...')     ## Envia un mensaje vacio
 
 
-bot = telepot.Bot(token)                    ## Poner el Token arriba, en la variable
+bot = telepot.Bot(token)                        ## Poner el Token arriba, en la variable
 bot.message_loop(handle)
 
 while 1:
