@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 #   StrangerWall_bot
 #   by @fedex6
@@ -23,15 +25,18 @@ name_owner  =   '-- name without @ of owner --'
 
 def handle(msg):
     chat_id = msg['chat']['id']                 ## Numero de Chat de quien recibe el mensaje
-    usuario = msg['from']['username']           ## Usuario que lo envia
     mensaje = msg['text']                       ## Mensaje recibido
     frase = mensaje.upper()                     ## Pasa todo a MAYUSCULA
     letra = list(frase)                         ## Crea un array con las letras del mensaje
+    if msg['from']['username'] == '':           ## Usuario que lo envia
+        usuario = msg['from']['first_name']
+    else:
+        usuario = '@' + msg['from']['username']
 
     for l in range(0, len(frase)):
         x = letra[l]
 
-        if x != ' ':
+        if x != ' ' and x != '.' and x != '!' and x != '?':
             letras = {
                 'A': 1, 
                 'B': 2, 
@@ -63,20 +68,18 @@ def handle(msg):
 
             result = letras.get(x, ' ')         ## Toma el valor de la letra
 
-            ''' DESCOMENTAR LUEGO DE QUE ESTE MONTADO
             GPIO.setup(result, GPIO.OUT)        ## Usa el valor del GPIO que debe encender, definirlos arriba
             GPIO.output(result, True)           ## Enciende el Led
             time.sleep(1.5)                     ## 1.5s deja encendido el Led
             GPIO.output(result, False)          ## Apaga el Led
-            time.sleep(0.3)                     ## Espera por la proxima letra
-            GPIO.cleanup()                      ## Limpieza
-            '''
+            time.sleep(0.1)                     ## Espera por la proxima letra
 
-            bot.sendMessage(chat_id, result)    ## Envia el Led que se encendio
-            time.sleep(1.8)
         else :
-            time.sleep(2.5)                     ## Los espacios hace que espere 3 seg
-            bot.sendMessage(chat_id, '...')     ## Envia un mensaje vacio
+            time.sleep(1.5)                     ## Los espacios hace que espere 1.5 seg
+    
+    if frase != '':
+        bot.sendMessage(chat_id, 'Will ya paso tu mensaje...')                  # Avisa que se mando correctamente
+        bot.sendMessage(chat_owner, usuario + ': ' + frase)   # Le manda el mensaje y quien lo mando al dueño del bot
 
 
 bot = telepot.Bot(token)                        ## Poner el Token arriba, en la variable
@@ -87,4 +90,5 @@ while 1:
         time.sleep(5)
 
     except KeyboardInterrupt:
+        GPIO.cleanup()                          ## Limpieza
         exit()
