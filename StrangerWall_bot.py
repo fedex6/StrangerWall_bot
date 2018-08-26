@@ -2,18 +2,23 @@
 # -*- coding: utf-8 -*-
 #
 #   StrangerWall_bot
-#   by @fedex6
+#   by @fedex6 // Correcciones: @TucumetaL
 #
-#   AUN NO ESTA PROBADO
-#
+########################
+
+## SOLUCION Acentos
+import sys  
+reload(sys)  
+sys.setdefaultencoding('utf8')
 ########################
 
 ## Imports
 import time
 import datetime
-from string import ascii_uppercase
 import telepot
 import RPi.GPIO as GPIO
+from string import ascii_uppercase
+
 
 # to use Raspberry Pi board pin names
 GPIO.setmode(GPIO.BCM)
@@ -28,6 +33,14 @@ def handle(msg):
     chat_id = msg['chat']['id']                 ## Numero de Chat de quien recibe el mensaje
     mensaje = msg['text']                       ## Mensaje recibido
     frase = mensaje.upper()                     ## Pasa todo a MAYUSCULA
+    frase = frase.replace('Á', 'A')
+    frase = frase.replace('É', 'E')
+    frase = frase.replace('Í', 'I')
+    frase = frase.replace('Ó', 'O')
+    frase = frase.replace('Ú', 'U')
+    frase = frase.replace('Ü', 'U')
+    frase = frase.replace('Ñ', 'N')
+        
     if msg['from']['username'] == '':           ## Usuario que lo envia
         usuario = msg['from']['first_name']
     else:
