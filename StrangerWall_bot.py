@@ -19,10 +19,15 @@ import telepot
 import RPi.GPIO as GPIO
 from string import ascii_uppercase
 
-
 # to use Raspberry Pi board pin names
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
+
+# Apagar los leds
+for leds in range(2, 27):
+    GPIO.setup(leds, GPIO.OUT)
+    GPIO.output(leds, False) 
+
 
 ## Bot data
 token       =   '-- TOKEN --'
@@ -48,7 +53,7 @@ def handle(msg):
 
     for letra in frase:
         if letra not in [' ', '.', '!', '?']:
-            result = ascii_uppercase.index(letra) + 1  ## Toma el valor de la letra
+            result = ascii_uppercase.index(letra) + 2  ## Toma el valor de la letra (no hay GPIO1, empieza en el 2 y llega hasta 27)
 
             GPIO.setup(result, GPIO.OUT)        ## Usa el valor del GPIO que debe encender, definirlos arriba
             GPIO.output(result, True)           ## Enciende el Led
