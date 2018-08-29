@@ -52,7 +52,7 @@ def handle(msg):
         usuario = '@' + msg['from']['username']
 
     for letra in frase:
-        if letra not in [' ', '.', '!', '?']:
+        if letra not in [' ', '.', ',', ':', '!', '?']:
             result = ascii_uppercase.index(letra) + 2  ## Toma el valor de la letra (no hay GPIO1, empieza en el 2 y llega hasta 27)
 
             GPIO.setup(result, GPIO.OUT)        ## Usa el valor del GPIO que debe encender, definirlos arriba
